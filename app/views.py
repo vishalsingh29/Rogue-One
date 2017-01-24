@@ -10,29 +10,32 @@ def hello_world():
 @app.route('/doctors', methods=['GET', 'POST'])
 def send_doctor_push():
     if request.method == 'POST':
-        account_ids = db_client.get_doctor_account_ids_from_fabric()
-        if not account_ids:
-            return {
-                'success': False,
-                'message': 'No account ids found!!'
-            }
-        player_ids = db_client.get_doctor_player_ids_from_account_ids(
-            account_ids)
-        if not player_ids:
-            return {
-                'success': False,
-                'message': 'No player ids found!!'
-            }
-        message = requests.form.get('message')
-        response_status_code = onesignal_client.send_notification(
-            player_ids, message)
-        return {
-            'success': True,
-            'status_code': response_status_code
-        }
+        target = request.form.get('target', None)
+        database = request.form.get('database', None)
+        query = request.form.get('query', '')
+        message = request.form.get('message', '')
+        if all([target, database, query, message]):
+            account_ids = db_client.get_account_ids_from_query(
+                query, database=database)
+            player_ids = []
+            if target == 'Doctor':
+                player_ids = get_doctor_player_ids_from_account_ids(account_ids)
+            elif target = 'Patient':
+                player_ids = get_patient_player_ids_from_account_ids(
+                    account_ids)
+            if player_ids:
+                response_status_code = onesignal_client.send_notification(
+                    player_ids, message)
+                return render_template(
+                    'success.html', status_code=response_status_code)
+        return render_template(
+            'error.html', message='Something went wrong!')
     else:
-        # render form here
-        return 'Hello moto'
+        return render_template(
+            'index.html',
+            dbs_available=['fabric', 'ray', 'accounts', 'oneness'],
+            customer_types=['Doctor', 'Patient']
+        )
 
 
 @app.route('/patients')

@@ -1,6 +1,23 @@
 import MySQLdb
 from app.constants import FABRIC_DOCTOR_QUERY
 
+def get_account_ids_from_query(query, **kwargs):
+    if not all([query, kwargs.get('database')]):
+        return []
+    db_config = app.config['DB_CONFIG'].get(kwargs['database'])
+    db = MySQLdb.connect(
+        host=db_config.get('host'),
+        user=db_config.get('user'),
+        passwd=db_config.get('password'),
+        db=db_config.get('db')
+    )
+    cur = db.cursor()
+    cur.execute(query)
+    account_ids = [i[0] for i in cur.fetchall() if i]
+    account_ids = [int(i) for i in account_ids]
+    return account_ids
+
+
 def get_doctor_account_ids_from_fabric():
     db = MySQLdb.connect(
         host=app.config.get('FABRIC_RO_DB_HOST'),

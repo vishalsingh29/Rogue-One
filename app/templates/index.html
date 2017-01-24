@@ -1,0 +1,22 @@
+<head>
+</head>
+<body>
+    <form method='POST'>
+        {% if dbs_available %}
+            <select name='db'>
+                {% for db in dbs_available %}
+                    <option value="{{db}}">{{db}}</option>
+                {% endfor %}
+            </select>
+        {% endif %}
+        {% if customer_types %}
+            <select name='target'>
+                {% for c in customer_types %}
+                    <option value="{{c}}">{{c}}</option>
+                {% endfor %}
+            </select>
+        {% endif %}
+        Query: <input type='text' name='query'>
+        <input type='submit'>
+    </form>
+</body>
