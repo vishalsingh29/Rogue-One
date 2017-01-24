@@ -1,5 +1,5 @@
 import MySQLdb
-from constants import FABRIC_DOCTOR_QUERY
+from app.constants import FABRIC_DOCTOR_QUERY
 
 def get_doctor_account_ids_from_fabric():
     db = MySQLdb.connect(

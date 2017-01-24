@@ -1,15 +1,10 @@
-from flask import Flask, request
-import db_client
-import onesignal_client
-
-app = Flask(__name__)
-
-app.config.from_object('settings')
+from flask import request, render_template
+from app.client import onesignal_client, db_client
+from app import app
 
 @app.route('/hello')
 def hello_world():
-    # print app.config['DEFAULT_ENV']
-    return 'Hello World'
+    return render_template('hello.html', name="Vishal")
 
 
 @app.route('/doctors', methods=['GET', 'POST'])
@@ -37,13 +32,9 @@ def send_doctor_push():
         }
     else:
         # render form here
-        return "Hello doctor"
+        return 'Hello moto'
 
 
 @app.route('/patients')
 def send_patient_push():
     pass
-
-
-if __name__ == '__main__':
-    app.run()

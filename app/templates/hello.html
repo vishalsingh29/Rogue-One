@@ -1,0 +1,8 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<h1>
+    {% if name %}
+        <h2 class="test">{{ name }}</h2>
+    {% endif %}
+</h1>
