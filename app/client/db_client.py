@@ -1,10 +1,13 @@
 import MySQLdb
+from app import app
 from app.constants import FABRIC_DOCTOR_QUERY
 
 def get_account_ids_from_query(query, **kwargs):
     if not all([query, kwargs.get('database')]):
         return []
     db_config = app.config['DB_CONFIG'].get(kwargs['database'])
+    if not db_config:
+        return []
     db = MySQLdb.connect(
         host=db_config.get('host'),
         user=db_config.get('user'),

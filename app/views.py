@@ -20,7 +20,7 @@ def send_doctor_push():
             player_ids = []
             if target == 'Doctor':
                 player_ids = get_doctor_player_ids_from_account_ids(account_ids)
-            elif target = 'Patient':
+            elif target == 'Patient':
                 player_ids = get_patient_player_ids_from_account_ids(
                     account_ids)
             if player_ids:

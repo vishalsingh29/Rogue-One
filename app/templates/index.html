@@ -3,7 +3,7 @@
 <body>
     <form method='POST'>
         {% if dbs_available %}
-            <select name='db'>
+            <select name='database'>
                 {% for db in dbs_available %}
                     <option value="{{db}}">{{db}}</option>
                 {% endfor %}
@@ -17,6 +17,7 @@
             </select>
         {% endif %}
         Query: <input type='text' name='query'>
+        Message: <input type='text' name='message'>
         <input type='submit'>
     </form>
 </body>
